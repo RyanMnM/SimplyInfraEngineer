@@ -23,7 +23,7 @@ try
 
     StatusResponse? status = JsonSerializer.Deserialize<StatusResponse>(statusResult, options);
 
-    Console.WriteLine(status);
+    IncidentsResponse? incidents = JsonSerializer.Deserialize<IncidentsResponse>(incidentsResult, options);
 }
 catch (HttpRequestException e)
 {
