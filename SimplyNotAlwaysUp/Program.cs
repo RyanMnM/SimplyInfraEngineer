@@ -4,11 +4,9 @@ using System.Text.Json;
 
 var options = new JsonSerializerOptions
 {
-    PropertyNameCaseInsensitive = true
+    PropertyNameCaseInsensitive = true,
+    WriteIndented = true
 };
-
-
-TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Etc/UTC");
 
 HttpClient client = new();
 
@@ -22,8 +20,6 @@ try
 
     string statusResult = await statusResponse.Content.ReadAsStringAsync();
     string incidentsResult = await incidentsResponse.Content.ReadAsStringAsync();
-
-    Console.WriteLine(statusResult);
 
     StatusResponse? status = JsonSerializer.Deserialize<StatusResponse>(statusResult, options);
 

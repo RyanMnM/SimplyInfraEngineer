@@ -1,6 +1,9 @@
-﻿namespace SimplyNotAlwaysUp.Modals
+﻿using System.Text.Json.Serialization;
+
+namespace SimplyNotAlwaysUp.Modals
 {
-    internal enum Indicator { none, minor, major, critical }
+    [JsonConverter(typeof(JsonStringEnumConverter<Indicator>))]
+    public enum Indicator { none, minor, major, critical }
 
     internal record Status
     {
@@ -13,7 +16,7 @@
     {
         public required Page Page { get; set; }
 
-        public required IList<Status> Status { get; set; }
+        public required Status Status { get; set; }
     }
 
 }
