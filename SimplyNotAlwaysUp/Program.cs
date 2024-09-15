@@ -1,4 +1,8 @@
-using SimplyNotAlwaysUp.Models;
+﻿using SimplyNotAlwaysUp.Models;
+
+using System.Net.Http;
+using System.Text;
+
 
 // Import the System provided JSON library
 using System.Text.Json;
@@ -37,8 +41,20 @@ try
     IncidentsResponse? incidents = JsonSerializer.Deserialize<IncidentsResponse>(incidentsResult, options);
 
     // Format our Slack message
+    using StringContent slackMessage = new(JsonSerializer.Serialize(new
+    {
+        text = "Test String",
+    }), Encoding.UTF8, "application/json");
+
     // Post our Slack message to the Slack endpoint (https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b)
+    using HttpResponseMessage response = await client.PostAsync("https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b", slackMessage);
+
     // Handle the response and any errors
+    response.EnsureSuccessStatusCode();
+
+    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine($"{jsonResponse}\n");
 }
 catch (HttpRequestException e)
 {
