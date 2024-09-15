@@ -45,6 +45,15 @@ try
 
     slackMessageText += string.Format("*Overall Status:* {0}\r\n", status.Status.Description.ToString());
 
+    slackMessageText += "*Recent Incidents:*\r\n";
+
+    foreach (var incident in incidents.Incidents.Take(3))
+    {
+        slackMessageText += string.Format("*Issue:* {0}\r\n", incident.Name);
+        slackMessageText += string.Format("*Created: {0:dd/MM/yy hh:mm:ss} \r\n", incident.CreatedAt);
+        slackMessageText += string.Format("*Status: {0}\r\n", incident.Status);
+    }
+
     using StringContent slackMessage = new(JsonSerializer.Serialize(new { text = slackMessageText, }), Encoding.UTF8, "application/json");
 
     // Post our Slack message to the Slack endpoint (https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b)
