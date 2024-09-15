@@ -8,4 +8,12 @@
 
         public required string Description { get; set; }
     }
+
+    internal record StatusResponse
+    {
+        public required Page Page { get; set; }
+
+        public required IList<Status> Status { get; set; }
+    }
+
 }
