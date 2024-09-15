@@ -2,6 +2,10 @@
 
 namespace SimplyNotAlwaysUp.Models
 {
+    /*
+     * POD Record for the `page` section of all responses
+     */
+
     internal record Page
     {
         public required string Id { get; set; }
