@@ -40,11 +40,12 @@ try
     StatusResponse? status = JsonSerializer.Deserialize<StatusResponse>(statusResult, options);
     IncidentsResponse? incidents = JsonSerializer.Deserialize<IncidentsResponse>(incidentsResult, options);
 
-    // Format our Slack message
-    using StringContent slackMessage = new(JsonSerializer.Serialize(new
-    {
-        text = "Test String",
-    }), Encoding.UTF8, "application/json");
+    // Format our Slack message (Can look into using POD at a later iteration)
+    string slackMessageText = string.Format("*OpsGenie System Status Report* (as of {0:dd/MM/yy hh:mm:ss} \r\n)", dateTime);
+
+    slackMessageText += string.Format("*Overall Status:* {0}\r\n", status.Status.Description.ToString());
+
+    using StringContent slackMessage = new(JsonSerializer.Serialize(new { text = slackMessageText, }), Encoding.UTF8, "application/json");
 
     // Post our Slack message to the Slack endpoint (https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b)
     using HttpResponseMessage response = await client.PostAsync("https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b", slackMessage);
