@@ -1,8 +1,7 @@
 ﻿using SimplyNotAlwaysUp.Models;
 
-using System.Net.Http;
+using System.Data;
 using System.Text;
-
 
 // Import the System provided JSON library
 using System.Text.Json;
@@ -40,6 +39,18 @@ try
     StatusResponse? status = JsonSerializer.Deserialize<StatusResponse>(statusResult, options);
     IncidentsResponse? incidents = JsonSerializer.Deserialize<IncidentsResponse>(incidentsResult, options);
 
+    if (status == null)
+    {
+        // Handle status response error
+        throw new NoNullAllowedException(statusResult);
+    }
+
+    if (incidents == null)
+    {
+        // Handle incidents response error
+        throw new NoNullAllowedException(incidentsResult);
+    }
+
     // Format our Slack message (Can look into using POD at a later iteration)
     string slackMessageText = string.Format("*OpsGenie System Status Report* (as of {0:dd/MM/yy hh:mm:ss} \r\n)", dateTime);
 
@@ -47,7 +58,7 @@ try
 
     slackMessageText += "*Recent Incidents:*\r\n";
 
-    foreach (var incident in incidents.Incidents.Take(3))
+    foreach (Incidents? incident in incidents.Incidents.Take(3))
     {
         slackMessageText += string.Format("*Issue:* {0}\r\n", incident.Name);
         slackMessageText += string.Format("*Created: {0:dd/MM/yy hh:mm:ss} \r\n", incident.CreatedAt);
@@ -60,9 +71,9 @@ try
     using HttpResponseMessage response = await client.PostAsync("https://webhook.site/83af7cc8-0ad8-42b9-bbe6-aa7483a62c7b", slackMessage);
 
     // Handle the response and any errors
-    response.EnsureSuccessStatusCode();
+    _ = response.EnsureSuccessStatusCode();
 
-    var jsonResponse = await response.Content.ReadAsStringAsync();
+    string jsonResponse = await response.Content.ReadAsStringAsync();
 
     Console.WriteLine($"{jsonResponse}\n");
 }
