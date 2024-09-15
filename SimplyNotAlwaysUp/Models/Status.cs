@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SimplyNotAlwaysUp.Modals
+namespace SimplyNotAlwaysUp.Models
 {
     [JsonConverter(typeof(JsonStringEnumConverter<Indicator>))]
     public enum Indicator { none, minor, major, critical }
@@ -18,5 +18,4 @@ namespace SimplyNotAlwaysUp.Modals
 
         public required Status Status { get; set; }
     }
-
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SimplyNotAlwaysUp.Modals
+namespace SimplyNotAlwaysUp.Models
 {
     internal record Incidents
     {

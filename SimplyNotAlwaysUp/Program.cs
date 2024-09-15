@@ -1,4 +1,4 @@
-﻿using SimplyNotAlwaysUp.Modals;
+using SimplyNotAlwaysUp.Models;
 
 using System.Text.Json;
 
