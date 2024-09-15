@@ -1,8 +1,8 @@
-using SimplyNotAlwaysUp.Models;
+﻿using SimplyNotAlwaysUp.Models;
 
 using System.Text.Json;
 
-var options = new JsonSerializerOptions
+JsonSerializerOptions options = new()
 {
     PropertyNameCaseInsensitive = true,
     WriteIndented = true
@@ -15,8 +15,8 @@ try
     using HttpResponseMessage statusResponse = await client.GetAsync("https://opsgenie.status.atlassian.com/api/v2/status.json");
     using HttpResponseMessage incidentsResponse = await client.GetAsync("https://opsgenie.status.atlassian.com/api/v2/incidents.json");
 
-    statusResponse.EnsureSuccessStatusCode();
-    incidentsResponse.EnsureSuccessStatusCode();
+    _ = statusResponse.EnsureSuccessStatusCode();
+    _ = incidentsResponse.EnsureSuccessStatusCode();
 
     string statusResult = await statusResponse.Content.ReadAsStringAsync();
     string incidentsResult = await incidentsResponse.Content.ReadAsStringAsync();
