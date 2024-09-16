@@ -9,3 +9,7 @@ Where there is no concreate type given we will fall back to a basic `string` to 
 For the `incidents` JSON object it's unclear even more as to what should and will be provided by the JSON response, the example on the page above only shows a small subset compared to a select few examples taken from the live data.
 
 As we are only interested in `Incident name`, `Incident creation time` and `Incident status` we will check to make sure those are at least supplied; and error handle if not, but will otherwise discard anything else provided by the JSON response.
+
+----
+
+https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/converters-how-to?pivots=dotnet-8-0
